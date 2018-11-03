@@ -56,6 +56,10 @@ public class Jython
         {
             e.printStackTrace();
         }
+        finally
+        {
+            process.destroy();
+        }
         /** Python 代码
          *  from sys import argv
          *  num1 = argv[1]
@@ -73,8 +77,7 @@ public class Jython
         PythonInterpreter interpreter = new PythonInterpreter();
         PySystemState state = Py.getSystemState();
         state.path.add("D:\\Program Files\\Entertainment\\Python\\Lib");
-        String code = "def transPython(str):\n" +
-                      "  return str";
+        String code = "def transPython(str):  return str";
         interpreter.exec(code);
         PyFunction func = interpreter.get("transPython", PyFunction.class);
         String str = "{\"CityId\":1,\"CityName\":\"chengdu\",\"ProvinceId\":11,\"CityOrder\":0}";
@@ -87,12 +90,12 @@ public class Jython
         throws IOException
     {
         //直接执行Python语句
-//        PythonInterpreter interpreter = new PythonInterpreter();
-//        interpreter.exec("days=('Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday')");
-//        for (int i = 0; i < 7; i++)
-//        {
-//            interpreter.exec(String.format("print days[%d];", i));
-//        }
+        //PythonInterpreter interpreter = new PythonInterpreter();
+        //interpreter.exec("days=('Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday')");
+        //for (int i = 0; i < 7; i++)
+        //{
+        //    interpreter.exec(String.format("print days[%d];", i));
+        //}
         /**
          * 输出：Monday         Tuesday         Wednesday         Thursday         Friday         Saturday         Sunday
          */
@@ -134,7 +137,6 @@ public class Jython
          *
          * 输出：['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
          */
-
 
         // 2. 面向对象式编程: 在Java中调用Python对象实例的方法
         String pythonClass = "D:\\calculator_clazz.py";
