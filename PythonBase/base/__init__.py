@@ -98,7 +98,7 @@
 # reload(sys)
 # sys.setdefaultencoding('utf8')
 #
-field="中华人公告"
+# field="中华人公告"
 
 # def start():
 #     field = "中华人公告"
@@ -108,11 +108,20 @@ field="中华人公告"
 # if __name__=='__main__':
 #     start()
 # !/usr/bin/python3
-a=field.encode('unicode-escape')
-print(a)
-b=a.decode('string_escape')
+# a=field.encode('unicode-escape')
+# print(a)
+# b=a.decode('string_escape')
+import time
 
+d={x:x for x in range(1000000001)}
 
+print(time.clock())
+if(10000000 in d.keys()):
+    n=d[10000000]
+print(time.clock())
+if(10000000 in d):
+    n=d[10000000]
+print(time.clock())
 
 
 
