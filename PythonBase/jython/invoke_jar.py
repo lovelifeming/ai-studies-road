@@ -6,7 +6,6 @@
 
 import os
 from jpype import *
-from jpype import *
 import jpype
 
 
