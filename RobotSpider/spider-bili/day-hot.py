@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # @Time : 2019/11/28 10:47
 # @Author : zengsm
-# @File : day-hot
+# @File : day-hot 域名/robots.txt 查看网站允许爬取路径
 import requests
 import random
 import time

@@ -52,7 +52,7 @@ class Converter(object):
         self = self
 
     @staticmethod
-    def convertStringToNumber(time_str, format):
+    def convert_string_to_number(time_str, format):
         """ 将字符串的时间转换为时间戳，例如  2019-11-29 23:40:00   "%Y-%m-%d %H:%M:%S 转换 1575042000"""
         # time.struct_time(tm_year=2019, tm_mon=11, tm_mday=29, tm_hour=23, tm_min=40, tm_sec=0, tm_wday=4, tm_yday=333,
         #                 tm_isdst=-1)
@@ -146,20 +146,54 @@ class Converter(object):
         print('上月最后一天：' + str(lastDay1))
         return lastDay
 
+    def convert_utc_to_standard(utc_str: str, utc_format: str, hour: int):
+        """
+        UTC时间字符串转换为时间戳 ("2019-11-11T12:15:05.786Z","%Y-%m-%dT%H:%M:%S.%fZ",8) return:2019-11-11 20:15:05.786000
+        ("2019-11-11 12:15:05.786","%Y-%m-%dT%H:%M:%S.%fZ",0) return: 2019-11-11 12:15:05.786000
+        """
+        try:
+            # "%Y-%m-%dT%H:%M:%S.%fZ"   "%Y-%m-%d %H:%M:%S.%f"
+            utcTime = datetime.datetime.strptime(utc_str, utc_format)
+            standard = utcTime + datetime.timedelta(hours=hour)
+            return standard
+        except Exception as e:
+            print(e)
+            return utc_str
+
+    def convert_standard_to_utc(standard_str: str, standard_fmt: str, target_fmt: str, hours_i: int = 0,
+                                second_i: int = 0):
+        """
+        UTC时间字符串转换为时间戳 ("2019-11-11 12:15:05.786","%Y-%m-%d %H:%M:%S.%f","%Y-%m-%dT%H:%M:%S.%fZ",hours_i=8)
+            return:2019-11-11T20:15:05.786000Z
+        ("2019-11-11 12:15:05.786","%Y-%m-%d %H:%M:%S.%f","%Y/%m/%d %H:%M:%S",hours_i=-1,second_i=30) return: 2019/11/11 11:15:35
+        """
+        try:
+            standTime = datetime.datetime.strptime(standard_str, standard_fmt)
+            standardStr = standTime + datetime.timedelta(hours=hours_i, seconds=second_i)
+            #  "%Y-%m-%dT%H:%M:%S.%fZ" "%Y-%m-%d %H:%M:%S.%f"
+            utcTime = datetime.datetime.strftime(standardStr, target_fmt)
+            return utcTime
+        except Exception as e:
+            print(e)
+            return standard_str
+
 
 if __name__ == '__main__':
+    standard_fmt = "%Y-%m-%dT%H:%M:%S.%fZ"
     start_time = datetime.now()
     converter = Converter()
-    converter.convert_format('2019-11-29 23:40:00', '%Y-%m-%d %H:%M:%S', '%Y/%m/%d %H:%M:%S')
-    converter.convert_format_timeStamp()
-    converter.get_now_time()
-    converter.get_before_offset(hour=-1)
-    converter.get_day_start_end()
-    converter.get_weekend()
-    converter.get_current_month_end()
-    converter.get_last_month_end_day()
+    print(converter.convert_format('2019-11-29 23:40:00', '%Y-%m-%d %H:%M:%S', '%Y/%m/%d %H:%M:%S'))
+    print(converter.convert_format_timeStamp())
+    print(converter.get_now_time())
+    print(converter.get_before_offset(hour=-1))
+    print(converter.get_day_start_end())
+    print(converter.get_weekend())
+    print(converter.get_current_month_end())
+    print(converter.get_last_month_end_day())
+    print(converter.convert_utc_to_standard("2019-11-11T12:15:05.786Z", standard_fmt, 8))
+    print(converter.convert_standard_to_utc("2019-11-11 12:15:05.786", "%Y-%m-%d %H:%M:%S.%f", standard_fmt, hours_i=8))
 
-    Converter.convertStringToNumber('2019-11-29 23:40:00','%Y-%m-%d %H:%M:%S')
+    Converter.convert_string_to_number('2019-11-29 23:40:00', '%Y-%m-%d %H:%M:%S')
     Converter.buildTime(2019, 11, 29, 18, 1, 58)
     time.sleep(1)
     end_time = datetime.now()
