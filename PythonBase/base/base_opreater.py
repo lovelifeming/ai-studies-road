@@ -21,6 +21,7 @@ import sys
 
 def file_example():
     print('文件编码：' + sys.getdefaultencoding())  # 获取默认编码
+    return sys.argv
 
 
 def number_example():
@@ -133,10 +134,15 @@ def str_example(param):
     print(param)
 
 
-# file_example()    #文件操作编码
-# number_example()  # 数字操作
-# number_example_and_or_not()  # 逻辑操作
-# number_example_operational_character()  操作符
-# math_example()        # math 库操作
-condition_control_example(68)  # 条件分支，循环结构，
-# str_example('test')  # 字符串操作
+if __name__ == '__main__':
+    # 不带括号时，调用的是这个函数本身，是整个函数体，不须等函数执行完成。
+    print("不带括号：" + file_example.__str__())
+    # 带括号时，调用的是函数执行的结果，须等函数执行完成的结果。函数默认返回 None
+    print("带括号：" + str(file_example()))
+    # file_example()    #文件操作编码
+    # number_example()  # 数字操作
+    # number_example_and_or_not()  # 逻辑操作
+    # number_example_operational_character()  操作符
+    # math_example()        # math 库操作
+    # condition_control_example(68)  # 条件分支，循环结构，
+    # str_example('test')  # 字符串操作
