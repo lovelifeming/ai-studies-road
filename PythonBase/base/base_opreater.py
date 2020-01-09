@@ -15,8 +15,12 @@
 # 函数名一律小写，如有多个单词，用下划线隔开，私有函数在函数前加一个下划线 _
 # 变量名尽量小写, 如有多个单词，用下划线隔开
 # 常量采用全大写，如有多个单词，使用下划线隔开
+import hashlib
 import math
+import os
+import random
 import sys
+import uuid
 
 
 def file_example():
@@ -130,15 +134,87 @@ def condition_control_example(score=92):
     #       如果以非正常方式(break/continue)退出循环，else分支不被执行。
 
 
-def str_example(param):
-    print(param)
+def get_uuid(param='test'):
+    """ uuid是128位的全局唯一标识符（univeral unique identifier），通常用32位的一个字符串的形式来表现。
+    有时也称guid(global unique identifier)。python中自带了uuid模块来进行uuid的生成和管理工作。
+    python中的uuid模块基于信息如MAC地址、时间戳、命名空间、随机数、伪随机数来uuid。具体方法有如下几个：　　
+　　uuid.uuid1()　　基于MAC地址，时间戳，随机数来生成唯一的uuid，可以保证全球范围内的唯一性。
+　　*uuid.uuid2()　　算法与uuid1相同，不同的是把时间戳的前4位置换为POSIX的UID。
+    *不过需要注意的是python中没有基于DCE的算法，所以python的uuid模块中没有uuid2这个方法。
+　　uuid.uuid3(namespace,name)　　通过计算一个命名空间和名字的md5散列值来给出一个uuid，所以可以保证命名空间中的不同
+    名字具有不同的uuid，但是相同的名字就是相同的uuid了。namespace并不是一个自己手动指定的字符串或其他量，
+    而是在uuid模块中本身给出的一些值。比如uuid.NAMESPACE_DNS，uuid.NAMESPACE_OID，uuid.NAMESPACE_OID这些值。
+    这些值本身也是UUID对象，根据一定的规则计算得出。
+　　uuid.uuid4()　　通过伪随机数得到uuid，是有一定概率重复的
+　　uuid.uuid5(namespace,name)　　和uuid3基本相同，只不过采用的散列算法是sha1 """
+    namespace = uuid.NAMESPACE_URL
+    name = param
+    id1 = uuid.uuid1()
+    print("uuid1:" + id1.hex)
+    id3 = uuid.uuid3(namespace, name)
+    print("uuid3:" + id3.__str__())
+    id4 = uuid.uuid4()
+    print("uuid4:int=" + str(id4.int))
+    id5 = uuid.uuid5(namespace, name)
+    print("uuid5:time=" + str(id5.time))
+    return id1
+
+
+def get_str_md5(str):
+    """ 计算字符串md5值 """
+    md5 = hashlib.md5(str.encode('utf-8'))
+    md5_digest = md5.hexdigest()
+    return md5_digest
+
+
+def get_file_md5(file_name):
+    """ 计算文件md5值 """
+    with open(file_name, 'rb') as fn:
+        data = fn.read()
+        md5 = hashlib.md5(data).hexdigest()
+        return md5
+
+
+def get_big_file_md5(file_name):
+    """ 计算大文件的md5值 """
+    m = hashlib.md5()
+    with open(file_name, 'rb') as fn:
+        while True:
+            data = fn.read(4096)
+            if not data:
+                break
+            m.update(data)
+    return m.hexdigest()
+
+
+def get_md5_of_folder(dir):
+    """ 计算文件夹下面所有文件md5值 """
+    if not os.path.isdir(dir):
+        return None
+    md5_file = "{}_tmp.md5".format(str(random.randint(0, 1000)).zfill(6))
+    with open(md5_file, 'w') as outfile:
+        for root, subdirs, files in os.walk(dir):
+            for file in files:
+                file_full_path = os.path.join(root, file)
+                md5 = get_file_md5(file_full_path)
+                outfile.write(md5)
+    md5 = get_file_md5(md5_file)
+    os.remove(md5_file)
+    return md5
 
 
 if __name__ == '__main__':
-    # 不带括号时，调用的是这个函数本身，是整个函数体，不须等函数执行完成。
+    # get_uuid('admin')
+    # 不带括号时，调用的是这个函数本身，是整个函数体，获取函数内存地址，不须等函数执行完成。
     print("不带括号：" + file_example.__str__())
     # 带括号时，调用的是函数执行的结果，须等函数执行完成的结果。函数默认返回 None
     print("带括号：" + str(file_example()))
+    # 获取字符串、文件、大文件、文件夹 md5值
+    print(get_str_md5('abc'))
+    print(get_file_md5('D:\\test\\test.txt'))
+    print(get_big_file_md5('D:\\test\\test.txt'))
+    print(get_md5_of_folder('D:\\test'))
+
     # file_example()    #文件操作编码
     # number_example()  # 数字操作
     # number_example_and_or_not()  # 逻辑操作
