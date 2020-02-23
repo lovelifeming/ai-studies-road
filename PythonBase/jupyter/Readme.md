@@ -82,3 +82,16 @@ Ctrl-S : 文件存盘
 Shift : 忽略
 Up : 光标上移或转入上一单元
 Down :光标下移或转入下一单元
+
+#常用配置
+
+主题字体设置
+Setting --> Jupyter Lab Theme --> JupyterLab Dark
+
+Jupyter Lab 插件安装
+Settings --> Advanced Settings Editor ，将Extension Manager 里的enabled 的 false 改成 true
+
+Markdown、Raw cell字体设置
+Settings --> Advanced Settings Editor --> Notebook --> 将系统默认配置拷贝到个人配置，修改'fontSize'字体大小 18
+文本编辑字体设置
+Settings --> Advanced Settings Editor --> Text Editor --> 将系统默认配置拷贝到个人配置，修改'fontSize'字体大小 18
