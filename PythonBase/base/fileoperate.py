@@ -11,5 +11,5 @@ def text_file_replace(source_file, target_file, old_str, new_str):
 
 
 if __name__ == '__main__':
-    text_file_replace('D:\\test\\test.sql', 'D:\\test\\performance1.sql', 'INSERT INTO',
-                      'INSERT INTO "mes"."performance_colligate" ')
+    text_file_replace('D:\\test\\test.sql', 'D:\\test\\test.sql', 'INSERT INTO',
+                      'INSERT INTO "mes"."user_info" ')
