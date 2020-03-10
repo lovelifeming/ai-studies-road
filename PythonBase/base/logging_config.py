@@ -18,7 +18,7 @@ class LoggingFactory(object):
     """logging中可以选择很多消息级别，如debug、info、warning、error、critical。
         logging.basicConfig函数各参数：
             filename：指定日志文件名；
-            filemode：和file函数意义相同，指定日志文件的打开模式，'w'或者'a'；
+            filemode：和file函数意义相同，指定日志文件的打开模式，'w'或者'a',a：append追加到文件末，w：write重写写入文件；
             format：指定输出的格式和内容，format可以输出很多有用的信息，
             参数： 作用
             %(levelno)s：打印日志级别的数值
@@ -34,7 +34,8 @@ class LoggingFactory(object):
             %(message)s：打印日志信息
         datefmt：指定时间格式，同time.strftime()；
         level：设置日志级别，默认为logging.WARNNING；
-        stream：指定将日志的输出流，可以指定输出到sys.stderr，sys.stdout或者文件，默认输出到sys.stderr，当stream和filename同时指定时，stream被忽略；
+        stream：指定将日志的输出流，可以指定输出到sys.stderr，sys.stdout或者文件，默认输出到sys.stderr，
+        当stream和filename同时指定时，stream被忽略；
     """
     """ logging有一个日志处理的主对象，其他处理方式都是通过addHandler添加进去,
             handler名称：  位置；                 作用
@@ -171,20 +172,22 @@ class LoggingFactory(object):
 
 
 if __name__ == '__main__':
-    lf = LoggingFactory()
-    # logger1 = lf.buildLogger_FileHandler(level=logging.NOTSET, fileName='./logs/logging_fh.log')
-    # logger1 = lf.buildLogger_sh(level=logging.DEBUG, fileName='./logs/logging_sh.log')
-    logger1 = lf.buildLogger_TimedRotatingFileHandler(level=logging.DEBUG, fileName='./logs/logging_trf.log')
-    # logger1 = lf.buildLogger_RotatingFileHandler(level=logging.DEBUG, fileName='./logs/logging_rf.log')
-    # logger1 = lf.buildLogger_json('./resources/logging_config.json', level=logging.DEBUG)
-    # logger1 = lf.buildLogger_yaml('./resources/logging_config.yml', level=logging.DEBUG)
-    logger1.info("start print log...")
-    for i in range(10):
-        logger1.log(logging.DEBUG, time.strftime('%Y-%m-%d %H:%M:%S') + ' this is log method ' + str(i))
-        logger1.debug('this is debug method ' + str(i))
-        logger1.warning('this is warning method ' + str(i))
-        logger1.exception('this is exception method ' + str(i))
-        logger1.error('this is error method ' + str(i))
-        time.sleep(1)
-
+    try:
+        lf = LoggingFactory()
+        # logger1 = lf.buildLogger_FileHandler(level=logging.NOTSET, fileName='./logs/logging_fh.log')
+        # logger1 = lf.buildLogger_sh(level=logging.DEBUG, fileName='./logs/logging_sh.log')
+        logger1 = lf.buildLogger_TimedRotatingFileHandler(level=logging.DEBUG, fileName='./logs/logging_trf.log')
+        # logger1 = lf.buildLogger_RotatingFileHandler(level=logging.DEBUG, fileName='./logs/logging_rf.log')
+        # logger1 = lf.buildLogger_json('./resources/logging_config.json', level=logging.DEBUG)
+        # logger1 = lf.buildLogger_yaml('./resources/logging_config.yml', level=logging.DEBUG)
+        logger1.info("start print log...")
+        for i in range(10):
+            logger1.log(logging.DEBUG, time.strftime('%Y-%m-%d %H:%M:%S') + ' this is log method ' + str(i))
+            logger1.debug('this is debug method ' + str(i))
+            logger1.warning('this is warning method ' + str(i))
+            logger1.exception('this is exception method ' + str(i))
+            logger1.error('this is error method ' + str(i))
+            time.sleep(1)
+    except:
+        logger1.info("Exception Error:", exc_info=True)
     logger1.info("finish print log.")
