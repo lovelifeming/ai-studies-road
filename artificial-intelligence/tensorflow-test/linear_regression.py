@@ -9,6 +9,10 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.python.tools.inspect_checkpoint import print_tensors_in_checkpoint_file as ptf
 
+""" 线性回归模型训练、模型保存、模型使用和summary使用 
+    summary文件显示：CMD窗口中执行命令：tensorboard --logdir /resource/summary-dir 启动Web服务
+    环境：TensorFlow 1.8   python 2.7     """
+
 
 def linear_regression():
     # 1.生成模拟数据
@@ -28,9 +32,9 @@ def linear_regression():
     W = tf.Variable(tf.random_normal([1]), name='weight')
     B = tf.Variable(tf.zeros([1]), name='bias')
     Z = tf.multiply(X, W) + B  # 前向结构
-    tf.summary.histogram('Z',Z)
+    tf.summary.histogram('Z', Z)  # 将预测值以直方图显示
     cost = tf.reduce_mean(tf.square(Y - Z))  # 反向优化(均方差)(1,2,3,4)[2,3,3,4]
-    tf.summary.scalar('loss_function',cost) #
+    tf.summary.scalar('loss_function', cost)  # 将预测值以标量显示
     learning_rate = 0.01  # 学习率
     # 使用tf的梯度下降优化器设定的学习率不断优化 W 和 b使loss最小化，最终使z 与y的误差最小
     optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
@@ -46,10 +50,17 @@ def linear_regression():
     # 启动 session
     with tf.Session() as sess:
         sess.run(init)
+
+        merged_summary_op = tf.summary.merge_all()  # 合并所有的summary
+        # 创建 summary_writer 用于写入文件
+        summary_writer = tf.summary.FileWriter('resource/mnist_with_summaries', sess.graph)
         # Fit all training data
         for epoch in range(training_epochs):
             for (x, y) in zip(train_x, train_y):
                 sess.run(optimizer, feed_dict={X: x, Y: y})
+                # 生成summary
+                summary_str = sess.run(merged_summary_op, feed_dict={X: x, Y: y})
+                summary_writer.add_summary(summary_str, epoch)  # 将summary写入文件
             # 打印训练中的详细信息
             if epoch % display_step == 0:
                 loss = sess.run(cost, feed_dict={X: train_x, Y: train_y})
@@ -126,8 +137,7 @@ def check_session_information():
 
 
 if __name__ == '__main__':
-    # linear_regression()
+    linear_regression()
     # restore_session()
-    check_session_information()
-
-    print('Finished!')
+    # check_session_information()
+    print(tf.VERSION)   #查看TensorFlow版本 1.8.0

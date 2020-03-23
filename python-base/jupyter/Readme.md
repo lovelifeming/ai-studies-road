@@ -56,7 +56,7 @@ Space : 向下滚动
 
 编辑模式 ( Enter 键启动)
 Tab : 代码补全或缩进
-Shift-Tab : 提示
+Shift-Tab : 提示函数参数，查看函数源码
 Ctrl-] : 缩进
 Ctrl-[ : 解除缩进
 Ctrl-A : 全选

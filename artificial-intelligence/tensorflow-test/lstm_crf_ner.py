@@ -8,8 +8,8 @@ import codecs
 import pickle
 import sys
 
-import numpy as  np
-import tensorflow as  tf
+import numpy as np
+import tensorflow as tf
 from Batch import BatchGenerator
 from bilstm_crf import Model
 from utils import test_input, extraction, train
@@ -43,14 +43,8 @@ print("Finished creating the data generator.")
 epochs = 31
 batch_size = 32
 
-config = {}
-config['lr'] = 0.001
-config['embedding_dim'] = 100
-config['sen_len'] = len(x_train[0])
-config['batch_size'] = batch_size
-config['embedding_size'] = len(word2id) + 1
-config['tag_size'] = len(tag2id)
-config['pretrained'] = False
+config = {'lr': 0.001, 'embedding_dim': 100, 'sen_len': len(x_train[0]), 'batch_size': batch_size,
+          'embedding_size': len(word2id) + 1, 'tag_size': len(tag2id), 'pretrained': False}
 
 embedding_pre = []
 if len(sys.argv) == 2 and sys.argv[1] == 'pretrained':
