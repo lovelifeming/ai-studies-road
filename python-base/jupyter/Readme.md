@@ -87,6 +87,7 @@ Down :光标下移或转入下一单元
 
 主题字体设置
 Setting --> Jupyter Lab Theme --> JupyterLab Dark
+点击View-->点击Toggle Line Numbers
 
 Jupyter Lab 插件安装
 Settings --> Advanced Settings Editor ，将Extension Manager 里的enabled 的 false 改成 true
@@ -95,3 +96,30 @@ Markdown、Raw cell字体设置
 Settings --> Advanced Settings Editor --> Notebook --> 将系统默认配置拷贝到个人配置，修改'fontSize'字体大小 18
 文本编辑字体设置
 Settings --> Advanced Settings Editor --> Text Editor --> 将系统默认配置拷贝到个人配置，修改'fontSize'字体大小 18
+
+配置jupyrter工作目录：
+1.打开C:\Users\Administrator\.jupyter\jupyter_notebook_config.py文件，修改 c.NotebookApp.notebook_dir = ''配置项
+2.右键查看jupyter快捷方式的属性，找到快捷方式的目标，修改最后一个参数及是工作目录
+
+
+Jupyter中的魔法函数:
+1）%pwd
+该魔法函数用于显示Jupyter当前的工作空间。
+2）%hist
+该魔法函数用于显示当前Jupyter中，所有运行过的历史代码。
+3）%who
+该魔法函数用于显示当前Jupyter环境中的所有变量或名称。
+4）%reset
+该魔法函数用于删除当前Jupyter环境中的所有变量或名称。
+5)%time
+该魔法函数用于计算当前代码行的运行时长。
+6)%timeit
+该魔法函数用于计算当前代码行的平均运行时长（即在执行一个语句100000次(默认情况下)后，再给出运行最快3次的平均值。
+7)%%timeit
+该魔法函数用于计算当前cell的代码运行时长。
+8）%matplotlib
+该魔法函数用于显示绘图结果的风格，默认为%matplotlib inline，是直接将图片显示在浏览器中，如果希望图片单独生成，可以使用%matplotlib。
+9）%load
+该魔法函数用于加载本地Python文件或者网络中的Python文件，例如本地脚本文件的加载：%load xxx.py。
+10）%run
+该魔法函数用于运行本地或网络中的Python文件，例如本地脚本文件的运行：%load xxx.py。
