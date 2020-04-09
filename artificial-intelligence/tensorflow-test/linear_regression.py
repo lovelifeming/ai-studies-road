@@ -120,16 +120,17 @@ def restore_session():
 
 
 def check_session_information():
-    """ 查看模型里面的参数"""
+    """ 查看模型里面的参数 """
     save_dir = "resource/model/"
     ptf(save_dir + "linermodel.cpkt", None, True, True)
-    W = tf.Variable(1.0, name='weight')
-    B = tf.Variable(2.0, name='bias')
-    saver = tf.train.Saver({"weight": B, 'bias': W})
     state = tf.train.get_checkpoint_state(save_dir)  # 检查获取可以用的模型文件
     print("state=", state)
     latest = tf.train.latest_checkpoint(save_dir)  # 获取最新的模型文件
     print("latest=", latest)
+
+    w = tf.Variable(1.0, name='weight')
+    b = tf.Variable(2.0, name='bias')
+    saver = tf.train.Saver({"weight": b, 'bias': w})
     with tf.Session() as sess:
         tf.global_variables_initializer().run()
         saver.save(sess, save_dir + 'linermodel.cpkt')
@@ -137,7 +138,7 @@ def check_session_information():
 
 
 if __name__ == '__main__':
-    linear_regression()
+    # linear_regression()
     # restore_session()
-    # check_session_information()
-    print(tf.VERSION)   #查看TensorFlow版本 1.8.0
+    check_session_information()
+    print(tf.VERSION)  # 查看TensorFlow版本 1.8.0
