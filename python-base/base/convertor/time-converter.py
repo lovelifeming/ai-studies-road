@@ -75,18 +75,18 @@ class Converter(object):
         # 使用time
         timeStamp = 1575042456
         timeArray = time.localtime(timeStamp)
-        otherStyleTime = time.strftime("%Y--%m--%d %H:%M:%S", timeArray)
-        print(otherStyleTime)  # 2019--11--29 23:47:36
+        otherStyleTime = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
+        print(otherStyleTime)  # 2019-11-29 23:47:36
         # 使用datetime
         timeStamp = 1575042456
         dateArray = datetime.fromtimestamp(timeStamp)
-        otherStyleTime = dateArray.strftime("%Y--%m--%d %H:%M:%S")
-        print(otherStyleTime)  # 2019--11--29 23:47:36
+        otherStyleTime = dateArray.strftime("%Y-%m-%d %H:%M:%S")
+        print(otherStyleTime)  # 2019-11-29 23:47:36
         # 使用datetime，指定utc时间，相差8小时
         timeStamp = 1575042456
         dateArray = datetime.utcfromtimestamp(timeStamp)
-        otherStyleTime = dateArray.strftime("%Y--%m--%d %H:%M:%S")
-        print(otherStyleTime)  # 2019--11--29 15:47:36
+        otherStyleTime = dateArray.strftime("%Y-%m-%d %H:%M:%S")
+        print(otherStyleTime)  # 2019-11-29 15:47:36
 
     @staticmethod
     def buildTime(year, month, days, hours, minutes, seconds):
@@ -146,21 +146,21 @@ class Converter(object):
         print('上月最后一天：' + str(lastDay1))
         return lastDay
 
-    def convert_utc_to_standard(utc_str: str, utc_format: str, hour: int):
+    def convert_utc_to_standard(self, utc_str: str, utc_format: str, hour: int):
         """
         UTC时间字符串转换为时间戳 ("2019-11-11T12:15:05.786Z","%Y-%m-%dT%H:%M:%S.%fZ",8) return:2019-11-11 20:15:05.786000
         ("2019-11-11 12:15:05.786","%Y-%m-%dT%H:%M:%S.%fZ",0) return: 2019-11-11 12:15:05.786000
         """
         try:
             # "%Y-%m-%dT%H:%M:%S.%fZ"   "%Y-%m-%d %H:%M:%S.%f"
-            utcTime = datetime.datetime.strptime(utc_str, utc_format)
-            standard = utcTime + datetime.timedelta(hours=hour)
+            utcTime = datetime.strptime(utc_str, utc_format)
+            standard = utcTime + timedelta(hours=hour)
             return standard
         except Exception as e:
             print(e)
             return utc_str
 
-    def convert_standard_to_utc(standard_str: str, standard_fmt: str, target_fmt: str, hours_i: int = 0,
+    def convert_standard_to_utc(self, standard_str: str, standard_fmt: str, target_fmt: str, hours_i: int = 0,
                                 second_i: int = 0):
         """
         UTC时间字符串转换为时间戳 ("2019-11-11 12:15:05.786","%Y-%m-%d %H:%M:%S.%f","%Y-%m-%dT%H:%M:%S.%fZ",hours_i=8)
@@ -168,10 +168,10 @@ class Converter(object):
         ("2019-11-11 12:15:05.786","%Y-%m-%d %H:%M:%S.%f","%Y/%m/%d %H:%M:%S",hours_i=-1,second_i=30) return: 2019/11/11 11:15:35
         """
         try:
-            standTime = datetime.datetime.strptime(standard_str, standard_fmt)
-            standardStr = standTime + datetime.timedelta(hours=hours_i, seconds=second_i)
+            standTime = datetime.strptime(standard_str, standard_fmt)
+            standardStr = standTime + timedelta(hours=hours_i, seconds=second_i)
             #  "%Y-%m-%dT%H:%M:%S.%fZ" "%Y-%m-%d %H:%M:%S.%f"
-            utcTime = datetime.datetime.strftime(standardStr, target_fmt)
+            utcTime = datetime.strftime(standardStr, target_fmt)
             return utcTime
         except Exception as e:
             print(e)
