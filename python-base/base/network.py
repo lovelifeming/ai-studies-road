@@ -51,11 +51,9 @@ def add_github_host(sys: str = 'windows'):
         f.write('\n')
         f.write('### add new ip address and host name by time: ' + datetime.datetime.now().__str__() + '\n')
         f.writelines('\n'.join([i for i in ans]))
+        f.write('\n')
 
 
 if __name__ == '__main__':
-    # add_github_host()  # 添加 github 地址映射
-    t = datetime.date.strftime(datetime.datetime(datetime.datetime.today().year, datetime.datetime.today().month, 1) - datetime.timedelta(1),"%Y-%m")
-    print(t)
-    print(type(t))
+    add_github_host()  # 添加 github 地址映射
     print('end...')
