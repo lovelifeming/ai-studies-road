@@ -57,7 +57,21 @@ def json_example():
     print(type(arr1))
 
 
+def str_format(name, age):
+    """str.format（），替换字段用大括号标记，可以用索引来以任何顺序引用变量,
+    如果插入变量名称，则会获得额外的能够传递对象的权限，然后在大括号之间引用参数和方法，也可以使用**来用字典来完成。
+    f'{}' F'{}' 是字符串格式的一种简写"""
+    print("Hello, {}. You are {}.".format(name, age))
+    print("Hello, {1}. You are {0}-{0}.".format(age, name))
+    person = {'name': name, 'age': age + 1}
+    print("Hello, {name}. You are {age}.".format(name=person['name'], age=person['age']))
+    print("Hello, {name}. You are {age}.".format(**person))
+    print(f"Hello, {name}. You are {age}.")
+    print(F"Hello, {name}. You are {age}.")
+
+
 if __name__ == '__main__':
     # bytes_convert_str('test')
     # init_collection()
-    json_example()
+    # json_example()
+    str_format('Jasom', 18)

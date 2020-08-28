@@ -60,6 +60,11 @@ class Converter(object):
         # timestamp = 1575042000
         timestamp = int(time.mktime(structTime))
         print('时间戳：' + str(timestamp))
+        strf = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(timestamp))
+        print('时间戳格式化：' + strf)
+        dt = datetime.fromtimestamp(timestamp)
+        strf = dt.strftime("%Y-%m-%d %H:%M:%S")
+        print('时间戳格式化：' + strf)
         return timestamp
 
     def convert_format(self, time_str, source_format, target_format):
