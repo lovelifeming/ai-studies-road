@@ -126,4 +126,4 @@ DEFAULT_REQUEST_HEADERS = {
 
 # 导出爬取数据配置
 # FEED_FORMAT = 'json'
-# FEED_URL = 'file_name.json'
+# FEED_URL = 'file_name_%(name)s_%(time)s.json'

@@ -19,6 +19,7 @@ class NewsFlash(scrapy.Spider):
     def parse(self, response):
         """ yield item  提交给管道文件处理 pipelines
             yield scrapy.Request( next_url, callback=self.parse)   提交子请求，回调递归处理
+            response.urljoin()   拼凑成绝对网址
         """
         print(response)
         body = response.body.decode('utf-8')

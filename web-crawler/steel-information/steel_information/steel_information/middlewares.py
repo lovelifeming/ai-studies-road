@@ -101,3 +101,18 @@ class SteelInformationDownloaderMiddleware:
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+
+
+class MyProxyDownloaderMiddlewares(object):
+    def __init__(self):
+        pass
+
+    def process_request(self, request, spider):
+        """收费：豌豆代理、阿布云、快代理、讯代理、太阳代理
+        免费代理：站大爷"""
+        # 替换ip地址
+        request.meta['proxy'] = 'ip'
+        # 替换Cookie值
+        request.headers['Cookie'] = 'cookie'
+        # 替换UA代理，fake_useragent 模块可以提供批量的ua
+        request.header['User-Agent'] = 'ua'
