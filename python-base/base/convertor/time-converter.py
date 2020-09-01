@@ -53,6 +53,7 @@ class Converter(object):
 
     @staticmethod
     def convert_string_to_number(time_str, format):
+        print('convert_string_to_number start...')
         """ 将字符串的时间转换为时间戳，例如  2019-11-29 23:40:00   "%Y-%m-%d %H:%M:%S 转换 1575042000"""
         # time.struct_time(tm_year=2019, tm_mon=11, tm_mday=29, tm_hour=23, tm_min=40, tm_sec=0, tm_wday=4, tm_yday=333,
         #                 tm_isdst=-1)
@@ -77,6 +78,7 @@ class Converter(object):
         return otherStyleTime
 
     def convert_format_timeStamp(self):
+        print('convert_format_timeStamp start...')
         # 使用time
         timeStamp = 1575042456
         timeArray = time.localtime(timeStamp)
@@ -94,7 +96,8 @@ class Converter(object):
         print(otherStyleTime)  # 2019-11-29 15:47:36
 
     @staticmethod
-    def buildTime(year, month, days, hours, minutes, seconds):
+    def build_time(year, month, days, hours, minutes, seconds):
+        print('build_time start...')
         build_time = datetime(year=year, month=month, day=days, hour=hours, minute=minutes, second=seconds)
         print('新建时间：' + str(build_time))  # 新建时间：2019-11-29 18:01:58
         print('时间偏移10s：' + str(build_time + timedelta(seconds=10)))  # 时间偏移10s：2019-11-29 18:02:08
@@ -103,6 +106,7 @@ class Converter(object):
         print('当前时间戳：' + str(time.time()))  # 当前时间：2019-11-29 19:32:05.026000
 
     def get_now_time(self):
+        print('get_now_time start...')
         now_time = time.strftime('%Y-%m-%d %H:%M:%S')
         print(now_time)  # 获取当前时间，精确到秒 2019-12-04 13:57:02
         now_datetime = datetime.now()
@@ -114,13 +118,15 @@ class Converter(object):
         return now_datetime
 
     def get_before_offset(self, day: int = 0, hour: int = 0, minute: int = 0, second: int = 0):
+        print('get_before_offset start...')
         now_time = datetime.now()
         off_time = now_time + timedelta(days=day, hours=hour, minutes=minute, seconds=second)
         print(off_time)  # 2019-12-04 13:27:40.276000
         return off_time
 
     def get_day_start_end(self):
-        ''' 获取当天开始时间和结束时间 '''
+        """ 获取当天开始时间和结束时间 """
+        print('get_day_start_end start...')
         today = datetime.today()
         start_time = datetime(year=today.year, month=today.month, day=today.day)
         end_time = datetime(year=today.year, month=today.month, day=today.day, hour=23, minute=59, second=59)
@@ -182,6 +188,17 @@ class Converter(object):
             print(e)
             return standard_str
 
+    def china_standard(self, timestr, target_fmt: str):
+        tm = time.strptime('2020年08月31日', '%Y年%m月%d日')
+        print('中文时间格式化：tm= ' + tm.__str__())
+        tm1 = time.strptime(timestr, '%Y年%m月%d日 %H时%M分%S秒')
+        print('中文时间格式化：tm1= ' + tm1.__str__())
+        stand = time.strftime('%Y-%m-%d', tm)
+        print('中文时间格式化：stand= ' + stand)
+        stand1 = time.strftime(target_fmt, tm1)
+        print('中文时间格式化：stand1= ' + stand1)
+        return stand1
+
 
 if __name__ == '__main__':
     standard_fmt = "%Y-%m-%dT%H:%M:%S.%fZ"
@@ -199,9 +216,10 @@ if __name__ == '__main__':
     print(converter.convert_standard_to_utc("2019-11-11 12:15:05.786", "%Y-%m-%d %H:%M:%S.%f", standard_fmt, hours_i=8))
 
     Converter.convert_string_to_number('2019-11-29 23:40:00', '%Y-%m-%d %H:%M:%S')
-    Converter.buildTime(2019, 11, 29, 18, 1, 58)
+    Converter.build_time(2019, 11, 29, 18, 1, 58)
     time.sleep(1)
     end_time = datetime.now()
     print(end_time - start_time)  # 计算秒级别时间差  0:00:01.001000
+    converter.china_standard('2020年08月31日 08时50分08秒', '%Y-%m-%d %H:%M:%S')
 
 # </editor-fold>

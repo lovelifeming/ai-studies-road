@@ -7,9 +7,12 @@
 import scrapy
 
 
-class SteelInformationItem(scrapy.Item):
-    title = scrapy.Field()
-    notes_list = scrapy.Field()
+class SteelInfoItem(scrapy.Item):
+    news_id = scrapy.Field()
+    title_name = scrapy.Field()
+    notes = scrapy.Field()
+    texts = scrapy.Field()
+    publish_time = scrapy.Field()
     website_url = scrapy.Field()
     website_name = scrapy.Field()
     response = scrapy.Field()

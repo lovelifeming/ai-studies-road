@@ -3,6 +3,7 @@
 # @Time : 2020/8/28 10:21
 # @File : search
 import re
+import time
 
 
 def multi_key(keys, content):

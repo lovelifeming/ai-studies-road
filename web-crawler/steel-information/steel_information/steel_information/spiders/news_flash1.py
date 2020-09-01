@@ -1,60 +1,38 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @File : news_flash
-import json
 import time
 
-import pymysql
 import scrapy
 
-from items import SteelInformationItem
+from items import SteelInfoItem
 
 
 class NewsFlash(scrapy.Spider):
     name = 'ganggu'
     allowed_domains = ['news.gangguwang.com']
     start_urls = ['http://news.gangguwang.com/fastnews/fastnews?typeText=all&city=0']
+    website_url = 'http://news.gangguwang.com/fastnews/fastnews?typeText=all&city=0'
+    website_name = '钢谷网'
 
     def parse(self, response):
-        print(response)
-        ymd = response.xpath('/html/body/div[3]/div[3]/div/div[2]/div[1]/h2/a/text()')
-        val_map = []
-        for i in 1000:
-            tm = response.xpath('/html/body/div[3]/div[3]/div/div[2]/div[1]/div/ul/li['+i+']/p/text()').extract_first()
-            content = response.xpath('/html/body/div[3]/div[3]/div/div[2]/div[1]/div/ul/li['+i+']/div/div[2]/p/text()').extract_first()
-            if(tm is None or content is None):
+        """ yield item  提交给管道文件处理 pipelines
+            yield scrapy.Request( next_url, callback=self.parse)   提交子请求，回调递归处理
+            response.urljoin()   拼凑成绝对网址
+        """
+        ymd_str = response.xpath('/html/body/div[3]/div[3]/div/div[2]/div[1]/h2/a/text()').extract_first()
+
+        for i in range(1, 200):
+            hm_p = '/html/body/div[3]/div[3]/div/div[2]/div[1]/div/ul/li[' + str(i) + ']/p/text()'
+            hm = response.xpath(hm_p).extract_first()
+            content_p = '/html/body/div[3]/div[3]/div/div[2]/div[1]/div/ul/li[' + str(i) + ']/div/div[2]/p/text()'
+            content = response.xpath(content_p).extract_first()
+            id_p = '/html/body/div[3]/div[3]/div/div[2]/div[1]/div/ul/li[' + str(i) + ']/div/a/@id';
+            news_id = response.xpath(id_p).extract_first()
+            if hm is None or content is None or news_id is None:
                 break
-            val_map.append()
-
-        sql_many = "replace  INTO `jiwei_xn_index_test`.`p_ifm_announce_bigdata`" \
-                   "(`news_id`, `title_name`, `notes`, `texts`,`publish_time`, `website`, `website_name`,create_time)" \
-                   " VALUES (%s,%s,%s,%s,%s,%s,%s,%s) "
-
-
-        for i in item['notes_list']:
-            publisherTime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(int(i['publisherTime'] / 1000)))
-            tp = (i['id'], i['inArticleTitle'], i['inArticleTitle'], i['content'], publisherTime, item['website_url'],
-                  item['website_name'], publisherTime)
-            val_map.append(tp)
-        # self.save_mysql(sql_many, val_map)
-
-        # def save_mysql(self, sql_many, val_map):
-        db = pymysql.connect(host="192.168.1.100", port=3306, user="root", password="123456",
-                             db="index_test", charset="utf8")
-        cursor = db.cursor()
-        try:
-            cursor.executemany(sql_many, val_map)
-            db.commit()
-            print("数据批量插入成功啦！！")
-        except Exception as e:
-            db.rollback()
-            e.with_traceback()
-            print("数据批量插入失败！")
-        # 关闭游标
-        cursor.close()
-        # 关闭数据库连接
-        db.close()
-
-    def save_to_txt(self, file_name, content):
-        with open(file_name, 'w', encoding='utf-8') as fn:
-            fn.writelines(content)
+            ymd = time.strptime(ymd_str + hm, '%Y年%m月%d日%H:%M')
+            publisherTime = time.strftime('%Y-%m-%d %H:%M:%S', ymd)
+            yield SteelInfoItem(news_id=news_id, title_name=None, notes=None,
+                                texts=content, publish_time=publisherTime,
+                                website_url=self.website_url, website_name=self.website_name, response=response)
