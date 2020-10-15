@@ -42,6 +42,11 @@ def get_folders(dir, filter=None):
     return file_name
 
 
+def convert_path(path: str) -> str:
+    """  任意系统的路径转换成当前系统的格式  """
+    return path.replace(r'\/'.replace(os.sep, ''), os.sep)
+
+
 if __name__ == '__main__':
     # text_file_replace('D:\\test\\test.sql', 'D:\\test\\performance1.sql', 'INSERT INTO',
     #                   'INSERT INTO "mes"."performance_colligate" ')

@@ -1,7 +1,40 @@
 # -*-coding:utf-8-*-
 from copy import deepcopy
 
-""" from 是从文件里面导入模块或包，import 是导入对象"""
+""" 当使用 import 语句导入模块后，Python 会按照以下顺序查找指定的模块文件：
+    在当前目录，即当前执行的程序文件所在目录下查找；
+    到 PYTHONPATH（环境变量）下的每个目录中查找；
+    到 Python 默认的安装目录下查找。
+解决 'ModuleNotFoundError' 的方法有 3 种，分别是：
+    1.向 sys.path 中临时添加模块文件存储位置的完整路径；
+    2.将模块放在 sys.path 变量中已包含的模块加载路径中；
+    3.设置 path 系统环境变量。
+from 是从文件里面导入模块或包，import 是导入对象
+ import class,class1,class2
+ import class as cla
+ import class.function as fun
+ form module import class[,class1][,class2]
+ form module import *
+相对导入：在顶层的 __init__.py 文件中导入
+ from . import class
+ from .submodule import class
+可选导入（Optional imports）
+    代码为例：
+    try:
+        # For Python 3
+        from http.client import responses
+    except ImportError:  # For Python 2.5-2.7
+        try:
+            from httplib import responses  # NOQA
+        except ImportError:  # For Python 2.4
+            from BaseHTTPServer import BaseHTTPRequestHandler as _BHRH
+            responses = dict([(k, v[0]) for k, v in _BHRH.responses.items()])
+循环导入:如果创建两个模块，二者相互导入对方，那么就会出现循环导入。建议重构代码结构。
+覆盖导入：当创建的模块与标准库中的模块同名时，如果你导入这个模块，就会出现覆盖导入。建议命名时避免与标准库名相同。
+
+"""
+
+
 class Human(object):
     """ Python 原生仅支持抽象类。抽象类：包含抽象函数，可以有函数实现和属性。抽象类只能被继承，不能被实例化 """
     birthday = None
@@ -18,8 +51,8 @@ class Human(object):
 
 class People(Human):
     """  造函数，不明确定义参数个数
-        单星号（*）：*agrs，将所有参数以元组(tuple)的形式导入
-        双星号（**）：**kwargs,双星号（**）将参数以字典的形式导入:
+        单星号（*）：*agrs，将所有参数以元组(tuple)的形式导入，是Arguments简写
+        双星号（**）：**kwargs,双星号（**）将参数以字典的形式导入，是 keyWordArguments简写
         self 是类内部成员变量，作用范围是类内部
         Python 不支持重载，只有重写。方法名相同时：后面的方法名会覆盖前面相同的方法名。
     """
