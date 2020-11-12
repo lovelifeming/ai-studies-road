@@ -18,6 +18,7 @@
 import hashlib
 import math
 import os
+import platform
 import random
 import sys
 import uuid
@@ -341,4 +342,6 @@ if __name__ == '__main__':
     # math_example()        # math 库操作
     # condition_control_example(68)  # 条件分支，循环结构，
     str_example('test')  # 字符串操作
+    print('python 解释器版本：', platform.python_version())
+    print('python 解释器版本：', sys.version)
     print('*********** run end ***********')

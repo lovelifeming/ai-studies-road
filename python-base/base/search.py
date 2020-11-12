@@ -32,6 +32,8 @@ def re_example(**kwargs):
     pattern = r'\d+.?\d*'
     digit = re.findall(pattern, content)
     print(digit)  # ['1.8', '2.0', '6 ', '8.8', '0.16', '0.18', '3.141', '592.65']
+    daytime = re.findall("([1-2][0-9][0-9][0-9]\-[0-9][0-9]\-[0-9][0-9] [0-9][0-9]:[0-9][0-9]:[0-9][0-9])", content)
+    print(daytime)  # 匹配时间字符串
 
 
 def html_example(**kwargs):

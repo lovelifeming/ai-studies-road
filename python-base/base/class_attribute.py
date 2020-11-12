@@ -1,7 +1,8 @@
 # -*-coding:utf-8-*-
 from copy import deepcopy
 
-""" 当使用 import 语句导入模块后，Python 会按照以下顺序查找指定的模块文件：
+""" 
+当使用 import 语句导入模块后，Python 会按照以下顺序查找指定的模块文件：
     在当前目录，即当前执行的程序文件所在目录下查找；
     到 PYTHONPATH（环境变量）下的每个目录中查找；
     到 Python 默认的安装目录下查找。
@@ -9,15 +10,20 @@ from copy import deepcopy
     1.向 sys.path 中临时添加模块文件存储位置的完整路径；
     2.将模块放在 sys.path 变量中已包含的模块加载路径中；
     3.设置 path 系统环境变量。
+    
 from 是从文件里面导入模块或包，import 是导入对象
  import class,class1,class2
  import class as cla
  import class.function as fun
  form module import class[,class1][,class2]
  form module import *
+ 
 相对导入：在顶层的 __init__.py 文件中导入
- from . import class
- from .submodule import class
+ from . import class                #导入同级对象
+ from .submodule import class       #导入同级目录里对象
+ from ..submodule import class      #导入上级目录对象
+ from ...submodule import class     #导入上上级目录对象
+ 
 可选导入（Optional imports）
     代码为例：
     try:
