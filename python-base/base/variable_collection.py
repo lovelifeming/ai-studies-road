@@ -165,8 +165,22 @@ def str_format(name, age):
     print(F"Hello, {name}. You are {age}.")
 
 
+def list_join(a: list = [1, 2, 3], b: list = [3, 4, 5]):
+    """ list集合连接操作：
+    两个list 的交集：list(set(a).intersection(set(b)))            a&b
+    两个list 的并集：list(set(a).union(set(b)))                   a|b
+    两个list 的差集：list(set(b).difference(set(a)))              b-a     在b中而不在a中
+    两个list对称差集：list(set(b).symmetric_difference(set(a)))    a^b     在a或b中，不同时在a和b中
+    """
+    print('两个list 的交集：', list(set(a).intersection(set(b))))
+    print('两个list 的并集：', list(set(a).union(set(b))))
+    print('两个list 的差集：', list(set(b).difference(set(a))))
+    print('两个list对称差集：', list(set(b).symmetric_difference(set(a))))
+
+
 if __name__ == '__main__':
     # bytes_convert_str('test')
     # init_collection()
     # json_example()
-    str_format('Jasom', 18)
+    # str_format('Jasom', 18)
+    list_join()

@@ -84,6 +84,16 @@ class People(Human):
         self.gender = kwargs.pop('gender', 1)
         self.birthday = kwargs.pop('birthday', '1990-01-01')
 
+    def venture_company(self, **kwargs):
+        try:
+            company_name = kwargs.pop('companyName')
+            legal_person = kwargs.pop('legalPerson')
+            company_name = kwargs.pop('ventureCapital')
+        except Exception as e:
+            raise Exception('venture capital fail ' + str(e))
+        finally:
+            print('this company output:', kwargs.items())
+
     @classmethod
     def have_lunch(self, sth):
         # 类方法，必须传 self
