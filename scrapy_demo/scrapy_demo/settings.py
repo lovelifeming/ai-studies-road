@@ -166,8 +166,7 @@ DOWNLOADER_MIDDLEWARES = {
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'scrapy_demo.pipelinesimage.PipelineImages': 1,
-    'scrapy_demo.pipelines.ScrapyDemoItem': 200,
-    'scrapy_demo.pipelinespymysql.PipelinePyMysql': 300
+    'scrapy_demo.pipelinespymysql.PipelineMySql': 300
 }
 IMAGES_URLS_FIELD = "images_urls"  # images_urls 是在items.py中配置的网络爬取得图片地址
 # 配置保存本地的地址

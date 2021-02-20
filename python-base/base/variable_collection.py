@@ -172,6 +172,18 @@ def list_join(a: list = [1, 2, 3], b: list = [3, 4, 5]):
     两个list 的差集：list(set(b).difference(set(a)))              b-a     在b中而不在a中
     两个list对称差集：list(set(b).symmetric_difference(set(a)))    a^b     在a或b中，不同时在a和b中
     """
+    # 遍历集合 range
+    for index in range(len(b)):
+        print(b[index])
+    # 遍历集合
+    for value in b:
+        print(value)
+    # 遍历集合
+    for index, value in enumerate(b):
+        print(index, value)
+    # 遍历集合，下标从 2开始
+    for index, value in enumerate(b, 2):
+        print(index, value)
     print('两个list 的交集：', list(set(a).intersection(set(b))))
     print('两个list 的并集：', list(set(a).union(set(b))))
     print('两个list 的差集：', list(set(b).difference(set(a))))

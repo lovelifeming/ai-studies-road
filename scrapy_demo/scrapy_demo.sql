@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50724
 File Encoding         : 65001
 
-Date: 2021-02-09 17:30:43
+Date: 2021-02-20 11:09:32
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -29,10 +29,10 @@ CREATE TABLE `scrapy_demo` (
   `address` varchar(255) DEFAULT NULL COMMENT '地址',
   `product_type` varchar(64) DEFAULT NULL COMMENT '产品类型',
   `classified` varchar(64) DEFAULT NULL COMMENT '类别',
-  `price` decimal(10,2) DEFAULT NULL COMMENT '价格',
+  `price` varchar(255) DEFAULT NULL COMMENT '价格',
   `source_site` varchar(255) DEFAULT NULL COMMENT '源网址',
   `version` int(11) DEFAULT '0' COMMENT '版本',
   `create_time` datetime DEFAULT NULL COMMENT '插入时间',
-  `modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `modify_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`unique_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

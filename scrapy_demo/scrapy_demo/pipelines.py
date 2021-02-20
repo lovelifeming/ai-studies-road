@@ -44,24 +44,23 @@ class PipelineMySql:
 
     def process_item(self, item, spider):
         """ 查询数据库是否已保存"""
-        query = "SELECT count(*) FROM spider_web_data WHERE unique_key= '{}'".format(item['unique_key'])
+        query = "SELECT count(*) FROM scrapy_demo WHERE unique_key= '{}'".format(item['unique_key'])
         self.cursor.execute(query)
         res = self.cursor.fetchone()
         if res is None or res[0] == 0:
-            # 封装入库 item
-            values = {"unique_key": item["unique_key"], "publish_time": item["publish_time"],
-                      "spider_time": item["spider_time"], "city": item["city"], "area": item["area"],
-                      "address": item["address"], "product_type": item["product_type"],
-                      "classified": item["classified"], "price": item["price"], "source_site": item["source_site"],
-                      "version": item["version"]}
-            sql = 'INSERT INTO `spider_web_data` (`unique_key`, `publish_time`, `spider_time`,`city`, `area`,' \
-                  ' `address`,`product_type`, `classified`, `price`,`source_site`,`version`,`create_time`) VALUES ' \
-                  '(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,NOW()) '
-            # 'ON DUPLICATE KEY UPDATE modify_time= CURRENT_TIMESTAMP();'
-            # 执行插入数据到数据库操作
-            self.cursor.execute(sql, values)
-            # 提交，不进行提交无法保存到数据库
-            self.connect.commit()
+            item["version"] = 2
+        # 封装入库 item
+        values = (item["unique_key"], item["publish_time"], item["spider_time"], item["title"], item["city"],
+                  item["area"], item["address"], item["product_type"], item["classified"], item["price"],
+                  item["source_site"], item["version"])
+        sql = 'INSERT INTO `scrapy_demo` (`unique_key`, `publish_time`, `spider_time`,`title`, `city`, `area`,' \
+              ' `address`,`product_type`, `classified`, `price`,`source_site`,`version`,`create_time`) VALUES ' \
+              '(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,NOW()) ' \
+              'ON DUPLICATE KEY UPDATE modify_time= CURRENT_TIMESTAMP();'
+        # 执行插入数据到数据库操作
+        self.cursor.execute(sql, values)
+        # 提交，不进行提交无法保存到数据库
+        self.connect.commit()
         return item
 
     def close_spider(self, spider):
@@ -99,13 +98,12 @@ class PipelineMySqlAsyn:
 
     def insert_db(self, tx, item):
         # 封装入库 item
-        values = {"unique_key": item["unique_key"], "publish_time": item["publish_time"],
-                  "spider_time": item["spider_time"], "city": item["city"], "area": item["area"],
-                  "address": item["address"], "product_type": item["product_type"], "classified": item["classified"],
-                  "price": item["price"], "source_site": item["source_site"], "version": item["version"]}
-        sql = 'INSERT INTO `spider_web_data` (`unique_key`, `publish_time`, `spider_time`, `city`,`area`,' \
-              '`address`,`product_type`, `classified`, `price`,`source_site`,`version`,`create_time`) VALUES ' \
-              '(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,NOW()) ' \
+        values = (item["unique_key"], item["publish_time"], item["spider_time"], item["title"], item["city"],
+                  item["area"], item["address"], item["product_type"], item["classified"], item["price"],
+                  item["source_site"], item["version"])
+        sql = 'INSERT INTO `scrapy_demo` (`unique_key`, `publish_time`, `spider_time`,`title`, `city`, `area`,' \
+              ' `address`,`product_type`, `classified`, `price`,`source_site`,`version`,`create_time`) VALUES ' \
+              '(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,NOW()) ' \
               'ON DUPLICATE KEY UPDATE modify_time= CURRENT_TIMESTAMP();'
         tx.execute(sql, values)
 
@@ -114,7 +112,7 @@ class PipelineImages:
     """ 爬虫数据图片/文件保存到指定位置，images_urls 是配置自动下载图片的字段 """
 
     def process_item(self, item, spider):
-        for id, value in item:
+        for value in item:
             if hasattr(value, 'keys') and 'images_name' in value.keys():
                 name = value['images_name']
                 abspath = os.path.join(IMAGES_STORE, name)
