@@ -4,6 +4,7 @@
 # @Author : zengsm
 # @File : time-convertor
 import calendar
+import locale
 import time
 from datetime import datetime, timedelta
 
@@ -188,7 +189,7 @@ class Converter(object):
             print(e)
             return standard_str
 
-    def china_standard(self, timestr, target_fmt: str):
+    def chinese_date_parse(self, timestr, target_fmt: str):
         tm = time.strptime('2020年08月31日', '%Y年%m月%d日')
         print('中文时间格式化：tm= ' + tm.__str__())
         tm1 = time.strptime(timestr, '%Y年%m月%d日 %H时%M分%S秒')
@@ -198,6 +199,48 @@ class Converter(object):
         stand1 = time.strftime(target_fmt, tm1)
         print('中文时间格式化：stand1= ' + stand1)
         return stand1
+
+    def chinese_date_format(self, local_time: time, target_fmt: str):
+        """ LANG=en_US.UTF-8
+            LC_CTYPE="en_US.UTF-8"
+            LC_NUMERIC="en_US.UTF-8"
+            LC_TIME="en_US.UTF-8"
+            LC_COLLATE="en_US.UTF-8"
+            LC_MONETARY="en_US.UTF-8"
+            LC_MESSAGES="en_US.UTF-8"
+            LC_PAPER="en_US.UTF-8"
+            LC_NAME="en_US.UTF-8"
+            LC_ADDRESS="en_US.UTF-8"
+            LC_TELEPHONE="en_US.UTF-8"
+            LC_MEASUREMENT="en_US.UTF-8"
+            LC_IDENTIFICATION="en_US.UTF-8"
+            LC_ALL=en_US.UTF-8
+        12个大类：
+            1、语言符号及其分类(LC_CTYPE)
+            2、数字(LC_NUMERIC)
+            3、比较和排序习惯(LC_COLLATE)
+            4、时间显示格式(LC_TIME)
+            5、货币单位(LC_MONETARY)
+            6、信息主要是提示信息,错误信息,状态信息,标题,标签,按钮和菜单等(LC_MESSAGES)
+            7、姓名书写方式(LC_NAME)
+            8、地址书写方式(LC_ADDRESS)
+            9、电话号码书写方式(LC_TELEPHONE)
+            10、度量衡表达方式 (LC_MEASUREMENT)
+            11、默认纸张尺寸大小(LC_PAPER)
+            12、对locale自身包含信息的概述(LC_IDENTIFICATION) """
+        # 转换为中文格式的日期
+        ltd = time.strftime('%Y{y}%m{m}%d{d} %H:%M:%S', local_time).format(y=u'年', m=u'月', d=u'日')
+        print('格式化替换为中文日期：', ltd)
+        ltd1 = time.strftime('%Y{y}%m{m}%d{d} %H{h}%M{m}%S{s}').format(y=u'年', m=u'月', d=u'日', h=u'时', f=u'分', s=u'秒')
+        print('time直接格式化替换为中文日期：', ltd1)
+        dt = datetime.now().strftime('%Y{y}%m{m}%d{d} %H:%M:%S').format(y=u'年', m=u'月', d=u'日')
+        print('datetime.now()格式化替换为中文日期：', dt)
+
+        # 直接使用 time 或datetime.now() 时间转为中文日期，必须提前设置 local的编码
+        locale.setlocale(locale.LC_CTYPE, 'chinese')
+        print('格式化转换为中文日期：', time.strftime(u'%Y年-%m月-%d日 %H时%M分%S秒', time.localtime()))
+        print('time直接格式化转换为中文日期：', time.strftime(target_fmt))
+        print('datetime.now()格式化转换为中文日期：', datetime.now().strftime(u'%Y年%m月%d日 %H:%M:%S'))
 
 
 if __name__ == '__main__':
@@ -220,6 +263,7 @@ if __name__ == '__main__':
     time.sleep(1)
     end_time = datetime.now()
     print(end_time - start_time)  # 计算秒级别时间差  0:00:01.001000
-    converter.china_standard('2020年08月31日 08时50分08秒', '%Y-%m-%d %H:%M:%S')
+    converter.chinese_date_parse('2020年08月31日 08时50分08秒', '%Y-%m-%d %H:%M:%S')
+    # converter.chinese_date_format(time.localtime(), u'%Y年%m月%d日 %H时%M分%S秒')
 
 # </editor-fold>

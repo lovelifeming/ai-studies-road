@@ -16,12 +16,30 @@ class DemoSpider(scrapy.Spider):
     custom_settings = {'ITEM_PIPELINES': {'scrapy_demo.pipelines.PipelineImages': 1,
                                           'scrapy_demo.pipelines.PipelineMySql': 300}}
 
+    def start_requests(self):
+        """ 开始爬取网页之前的请求 """
+        login_url = 'https://login.anjuke.com/login/checkbroker?account=12345678%40qq.com'
+        user_agent = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) ' \
+                     'Chrome/88.0.4324.190 Safari/537.36'
+        request = scrapy.Request(login_url, cookies={'Accept': 'application/json, text/javascript, */*; q=0.01',
+                                                     'Accept-Encoding': 'gzip, deflate',
+                                                     'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
+                                                     'Connection': 'keep-alive', 'user-agent': user_agent},
+                                 callback=self.start_url)
+        yield request
+
+    def start_url(self, response):
+        for ul in self.start_urls:
+            yield scrapy.Request(ul, callback=self.parse)
+
     def parse(self, response):
-        """ yield item  提交给管道文件处理 pipelines
-            yield scrapy.Request( next_url, callback=self.parse)   提交子请求，回调递归处理
-            response.urljoin()   拼凑成绝对网址
-            scrapy.FormRequest(url=url, formdata=data, callback=self.parse) post请求
-            images_urls 是在items.py中配置的网络爬取得图片地址
+        """
+        start_requests()    自定义起始爬取网页，方便爬取前的操作。
+        yield item  提交给管道文件处理 pipelines
+        yield scrapy.Request( next_url, callback=self.parse)   提交子请求，回调递归处理
+        response.urljoin()   拼凑成绝对网址
+        scrapy.FormRequest(url=url, formdata=data, callback=self.parse) post请求
+        images_urls 是在items.py中配置的网络爬取得图片地址
         """
         results = response.xpath("//div[contains(@class,'key-list')]//div[@class='item-mod ']")
         print(response.url)
