@@ -1,0 +1,15 @@
+GET http://localhost:80/api/item?id=99
+Accept: application/json
+
+###
+# Test your FastAPI endpoints
+
+GET http://127.0.0.1:8000/
+Accept: application/json
+
+###
+
+GET http://127.0.0.1:8000//picture/url?picUrl=https://dt.jwell56.com/user/nostate/login/imageVerifyCode?time=1649340731739
+Accept: application/json
+
+###
