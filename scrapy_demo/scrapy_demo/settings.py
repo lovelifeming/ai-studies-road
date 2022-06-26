@@ -46,8 +46,10 @@ CONCURRENT_REQUESTS_PER_IP = 4
 # 也就是说,并发限制将针对IP,而不是网站。该设定也影响 DOWNLOAD_DELAY: 如果 CONCURRENT_REQUESTS_PER_IP 非0,下载延迟应用在IP而不是网站上。
 
 # Disable cookies (enabled by default)
-# 禁用cookie（默认情况下启用）
-# COOKIES_ENABLED = False
+# 禁用cookie（默认情况下启用） 当COOKIES_ENABLED是注释的时候，scrapy默认没有开启cookie
+## 当COOKIES_ENABLED没有注释设置为False的时候，scrapy默认使用了settings里面的cookie
+## 当COOKIES_ENABLED设置为True的时候，scrapy就会把settings的cookie关掉，使用自定义cookie
+# COOKIES_ENABLED = False    #如果使用自定义cookie就把COOKIES_ENABLED设置为True，如果使用settings的cookie就把COOKIES_ENABLED设置为False
 # 打印cookie信息
 # COOKIES_DEBUG = True
 

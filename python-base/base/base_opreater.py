@@ -238,7 +238,7 @@ def condition_control_example(score=92):
         print('得分为中：' + str(score))
     else:
         print('得分为差：' + str(score))
-    # for 循环结构 固定次数循环 for 变量 in 集合：
+    # for 循环结构 固定次数循环 for 变量 in 集合： 前开后闭
     for i in range(1, 10, 2):
         print('for循环体内部：i=' + str(i))  # 1 3 5 7 9
     # while 循环语句   while 条件表达式：

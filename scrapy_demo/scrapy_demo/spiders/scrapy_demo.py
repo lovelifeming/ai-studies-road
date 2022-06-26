@@ -17,6 +17,10 @@ class DemoSpider(scrapy.Spider):
                                           'scrapy_demo.pipelines.PipelineMySql': 300}}
 
     def start_requests(self):
+        headers = {}        # 自定义headers，一定要设置  ROBOTSTXT_OBEY=False COOKIES_ENABLED = True
+        cookies = {}        # 自定义cookies，一定要设置  ROBOTSTXT_OBEY=False COOKIES_ENABLED = True
+        # 再次请求到详情页，并且声明回调函数callback，dont_filter=True 不进行域名过滤，meta给回调函数传递数据
+
         """ 开始爬取网页之前的请求 """
         login_url = 'https://login.anjuke.com/login/checkbroker?account=12345678%40qq.com'
         user_agent = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) ' \
