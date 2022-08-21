@@ -4,7 +4,6 @@
 # @Author : zengsm
 # @File : verifcation_code_recognitionslefocr @Description:
 import base64
-import logging
 import urllib.request
 
 from ddddocr import DdddOcr

@@ -8,7 +8,7 @@ import verifcation_code_recog
 # http://127.0.0.1:8000/docs
 
 app = FastAPI()
-sys.setrecursionlimit(2000)
+sys.setrecursionlimit(10000)
 
 @app.get("/")
 async def root():
