@@ -8,6 +8,8 @@ import locale
 import time
 from datetime import datetime, timedelta
 
+from dateutil.relativedelta import relativedelta
+
 """
   %a 星期的简写。如 星期三为Web
   %A 星期的全写。如 星期三为Wednesday
@@ -241,6 +243,28 @@ class Converter(object):
         print('格式化转换为中文日期：', time.strftime(u'%Y年-%m月-%d日 %H时%M分%S秒', time.localtime()))
         print('time直接格式化转换为中文日期：', time.strftime(target_fmt))
         print('datetime.now()格式化转换为中文日期：', datetime.now().strftime(u'%Y年%m月%d日 %H:%M:%S'))
+
+
+def getDate():
+    # 当前时间
+    current_time = time.strftime("%Y-%m-%d %H%M%S", time.localtime())
+    print(current_time)
+    current_time = datetime.now().strftime("%Y-%m-%d %H%M%S")
+    print(current_time)
+    # 减去一年
+    print((datetime.now() + relativedelta(years=-1)).strftime("%Y-%m-%d %H:%M:%S"))
+    # 减去一月
+    print((datetime.now() + relativedelta(months=-1)).strftime("%Y-%m-%d %H:%M:%S"))
+    # 减去一周
+    print((datetime.now() + relativedelta(weeks=-1)).strftime("%Y-%m-%d %H:%M:%S"))
+    # 减去一天
+    print((datetime.now() + relativedelta(days=-1)).strftime("%Y-%m-%d %H:%M:%S"))
+    # 减去一小时
+    print((datetime.now() + relativedelta(hours=-1)).strftime("%Y-%m-%d %H:%M:%S"))
+    # 减去一分钟
+    print((datetime.now() + relativedelta(minutes=-1)).strftime("%Y-%m-%d %H:%M:%S"))
+    # 减去一秒钟
+    print((datetime.now() + relativedelta(seconds=-1)).strftime("%Y-%m-%d %H:%M:%S"))
 
 
 if __name__ == '__main__':

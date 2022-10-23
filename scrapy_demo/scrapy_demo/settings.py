@@ -35,13 +35,13 @@ ROBOTSTXT_OBEY = False
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
 # 下载器延迟时间，下载器在同一网站面前需要等待的时间，该选项可以用来限制爬取速度,减轻服务器压力。同时也支持小数:0.25 以秒为单
-DOWNLOAD_DELAY = 4
+DOWNLOAD_DELAY = 1
 DOWNLOAD_TIMEOUT = 60
 RANDOMIZE_DOWNLOAD_DELAY = True
 # The download delay setting will honor only one of:
 # 下载延迟设置，只能有一个生效
 # CONCURRENT_REQUESTS_PER_DOMAIN = 16    # 对单个网站进行并发请求的最大值
-CONCURRENT_REQUESTS_PER_IP = 4
+CONCURRENT_REQUESTS_PER_IP = 16
 # 对单个ip进行并发请求的最大值，如果非0，则忽略，CONCURRENT_REQUESTS_PER_DOMAIN 设定,使用该设定。
 # 也就是说,并发限制将针对IP,而不是网站。该设定也影响 DOWNLOAD_DELAY: 如果 CONCURRENT_REQUESTS_PER_IP 非0,下载延迟应用在IP而不是网站上。
 
