@@ -225,7 +225,7 @@ def math_example():
     print('向上取整数math.floor(x)=' + str(math.ceil(x)))  # 4
 
 
-def condition_control_example(score=92):
+def condition_control_example(score=92):    # 默认参数是可修改的容器，如：列表、字典、集合，可以用 None 作为默认值，放在形参最后。
     """ for elif else; while; break continue; pass; else分支
         条件分支: if <>: else:    if <>: elif <>: else:
         条件控制 break 结束当前循环，终止循环， continue 结束当前这一次循环，继续执行循环条件
@@ -281,9 +281,9 @@ def get_uuid(param='test'):
     return id1
 
 
-def get_str_md5(str):
+def get_str_md5(content):
     """ 计算字符串md5值 """
-    md5 = hashlib.md5(str.encode('utf-8'))
+    md5 = hashlib.md5(content.encode('utf-8'))
     md5_digest = md5.hexdigest()
     return md5_digest
 

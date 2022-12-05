@@ -17,8 +17,8 @@ class DemoSpider(scrapy.Spider):
                                           'scrapy_demo.pipelines.PipelineMySql': 300}}
 
     def start_requests(self):
-        headers = {}        # 自定义headers，一定要设置  ROBOTSTXT_OBEY=False COOKIES_ENABLED = True
-        cookies = {}        # 自定义cookies，一定要设置  ROBOTSTXT_OBEY=False COOKIES_ENABLED = True
+        headers = {}        # 自定义headers，一定要设置  ROBOTSTXT_OBEY=False COOKIES_ENABLED = False
+        cookies = {}        # 自定义cookies，一定要设置  ROBOTSTXT_OBEY=False COOKIES_ENABLED = False
         # 再次请求到详情页，并且声明回调函数callback，dont_filter=True 不进行域名过滤，meta给回调函数传递数据
 
         """ 开始爬取网页之前的请求 """

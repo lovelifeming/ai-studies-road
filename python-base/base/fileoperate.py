@@ -1,6 +1,65 @@
 # -*-coding:utf-8-*-
 import os
 
+# region 文本操作
+""" 文本操作，读写模式
+r : 读取文件，若文件不存在则会报错
+w: 写入文件，若文件不存在则会先创建再写入，会覆盖原文件
+a : 写入文件，若文件不存在则会先创建再写入，但不会覆盖原文件，而是追加在文件末尾
+rb,wb： 分别于r,w类似，但是用于读写二进制文件
+r+ : 可读、可写，文件不存在也会报错，写操作时会覆盖
+w+ : 可读，可写，文件不存在先创建，会覆盖
+a+ : 可读、可写，文件不存在先创建，不会覆盖，追加在末尾
+"""
+
+
+class readTxt:
+    filepath = "D:\log.txt"
+
+    def read(file, mode='r', encoding="utf-8"):
+        """read()一次性读取文本中全部的内容，以字符串的形式返回结果 """
+        res = []
+        with open(file=file, mode=mode, encoding=encoding) as f:
+            data = f.read()
+            print(data)
+            res.append(data)
+        return res
+
+    def readline(file, mode='r', encoding="utf-8"):
+        """readline() 只读取文本第一行的内容，以字符串的形式返回结果 """
+        with open(file=file, mode=mode, encoding=encoding) as f:
+            data = f.readline()
+            print(data)
+            return data
+
+    def readline(file, mode='r', encoding="utf-8"):
+        """readlines() 读取文本所有内容，并且以列表的格式返回结果，一般配合for in使用 """
+        res = []
+        with open(file=file, mode=mode, encoding=encoding) as f:
+            for line in f.readlines():
+                line = line.strip('\n')  # 去掉列表中每一个元素的换行符
+                print(line)
+                res.append(line)
+        return res
+
+    def wr(file, mode='w', encoding="utf-8", content=[]):
+        """ 若filename不存在会自动创建，写之前会清空文件 """
+        with open(file=file, mode=mode, encoding=encoding) as f:
+            for i in content:
+                # f.write(i)  # 自带文件关闭功能，不需要再写f.close()
+                # f.newlines  # 换行 /r/n
+                f.writelines(i)
+
+    def wr(file, mode='a', encoding="utf-8", content=[]):
+        """ 若filename不存在会自动创建，写之前不会清空文件 """
+        with open(file=file, mode=mode, encoding=encoding) as f:
+            for i in content:
+                # f.write(i)  # 自带文件关闭功能，不需要再写f.close()
+                # f.newlines  # 换行 /r/n
+                f.writelines(i)
+
+
+# endregion
 
 def os_example():
     """ 获取当前路径：os.getcwd()     更改目录：os.chdir()         打开一个文件：os.open()
