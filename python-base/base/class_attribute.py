@@ -96,11 +96,13 @@ class People(Human):
 
     @classmethod
     def have_lunch(self, sth):
-        # 类方法，必须传 self
+        # 类方法，必须传 self。类方法只能访问类变量，不能访问实例变量
         print(str(sth) + " for lunch today")
 
     @staticmethod
     def go_to_sleep(name):
+        # 在类成员方法前加上“@staticmethod”，以表示下面的成员方法是静态方法。静态方法可以不带任何参数，由于静态方法没有self参数，
+        # 所以它无法访问类的实例成员；静态方法也没有cls参数，所以它也无法访问类成员。静态方法既可以通过对象名调用，也可以通过类名调用。
         print(str(name) + ",you should go to bed!")
 
     def __str__(self):

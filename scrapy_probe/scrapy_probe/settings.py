@@ -16,7 +16,7 @@ SPIDER_MODULES = ['scrapy_probe.spiders']
 # 使用 genspider 命令创建新spider的模块。默认: 'xxx.spiders'
 NEWSPIDER_MODULE = 'scrapy_probe.spiders'
 
-COMMANDS_MODULE = 'scrapy_probe.commands'
+# COMMANDS_MODULE = 'scrapy_probe.commands'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # 爬取的默认User-Agent，除非被覆盖
@@ -35,13 +35,13 @@ ROBOTSTXT_OBEY = False
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
 # 下载器延迟时间，下载器在同一网站面前需要等待的时间，该选项可以用来限制爬取速度,减轻服务器压力。同时也支持小数:0.25 以秒为单
-DOWNLOAD_DELAY = 4
+DOWNLOAD_DELAY = 0.5
 DOWNLOAD_TIMEOUT = 60
 RANDOMIZE_DOWNLOAD_DELAY = True
 # The download delay setting will honor only one of:
 # 下载延迟设置，只能有一个生效
 # CONCURRENT_REQUESTS_PER_DOMAIN = 16    # 对单个网站进行并发请求的最大值
-CONCURRENT_REQUESTS_PER_IP = 4
+CONCURRENT_REQUESTS_PER_IP = 16
 # 对单个ip进行并发请求的最大值，如果非0，则忽略，CONCURRENT_REQUESTS_PER_DOMAIN 设定,使用该设定。
 # 也就是说,并发限制将针对IP,而不是网站。该设定也影响 DOWNLOAD_DELAY: 如果 CONCURRENT_REQUESTS_PER_IP 非0,下载延迟应用在IP而不是网站上。
 
@@ -165,7 +165,6 @@ DOWNLOADER_MIDDLEWARES = {
 # 配置项目管道，如下载图片的图片管道，分布式爬虫多爬虫的pipeline，结尾int值是优先级，可以理解为权重，以逗号间隔，是个集合
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'scrapy_probe.pipelinesimage.PipelineImages': 1,
     'scrapy_probe.pipelinespymysql.PipelineMySql': 300
 }
 IMAGES_URLS_FIELD = "images_urls"  # images_urls 是在items.py中配置的网络爬取得图片地址
@@ -223,7 +222,7 @@ LOG_FORMAT = '%(asctime)s [%(name)s] %(levelname)s: %(message)s'
 LOG_DATEFORMAT = '%Y-%m-%d %H:%M:%S'
 # # 日志文件名
 to_day = datetime.now().date().__str__()
-LOG_FILE_PATH = './logs/scrapy_{}_{}.log'.format(BOT_NAME,to_day)
+LOG_FILE_PATH = './logs/{}_{}.log'.format(BOT_NAME,to_day)
 LOG_FILE = LOG_FILE_PATH
 # # 日志文件级别,默认值：“DEBUG”,log的最低级别。可选的级别有: CRITICAL、 ERROR、WARNING、INFO、DEBUG 。
 # LOG_LEVEL = 'INFO'
@@ -233,14 +232,9 @@ LOG_FILE = LOG_FILE_PATH
 # FEED_URL = 'file_name_%(name)s_%(time)s.json'
 
 # MySQL配置
-MYSQL_DB_NAME = 'jw_protection_db'
-MYSQL_HOST = '10.8.4.236'
+MYSQL_DB_NAME = 'db_nssa'
+MYSQL_HOST = '192.168.1.100'
 MYSQL_PORT = 3306
 MYSQL_USER = 'root'
-MYSQL_PASSWORD = 'nssa_db_1qazZAQ!'
+MYSQL_PASSWORD = '123456'
 
-# ES 配置
-ES_HOSTS = ['127.0.0.1']
-ES_USER = 'root'
-ES_PASSWORD = '123456'
-ES_PORT = 9201

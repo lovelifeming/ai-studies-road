@@ -44,24 +44,24 @@ class PipelineMySql:
 
     def process_item(self, item, spider):
         """ 查询数据库是否已保存"""
-        query = "SELECT count(*) FROM scrapy_probe WHERE unique_key= '{}'".format(item['unique_key'])
+        query = "SELECT count(*) FROM sys_risk1 WHERE remark= '{}' and device= '{}'".format(item['remark'], item['device'])
         self.cursor.execute(query)
         res = self.cursor.fetchone()
-        if res is None or res[0] == 0:
-            item["version"] = 2
-        # 封装入库 item
-        values = (item["unique_key"], item["publish_time"], item["spider_time"], item["title"], item["city"],
-                  item["area"], item["address"], item["product_type"], item["classified"], item["price"],
-                  item["source_site"], item["version"])
-        sql = 'INSERT INTO `scrapy_probe` (`unique_key`, `publish_time`, `spider_time`,`title`, `city`, `area`,' \
-              ' `address`,`product_type`, `classified`, `price`,`source_site`,`version`,`create_time`) VALUES ' \
-              '(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,NOW()) ' \
-              'ON DUPLICATE KEY UPDATE modify_time= CURRENT_TIMESTAMP();'
-        # 执行插入数据到数据库操作
-        self.cursor.execute(sql, values)
-        # 提交，不进行提交无法保存到数据库
-        self.connect.commit()
-        return item
+        if res is None or res[0] != 0:
+            print("Data already exists：")
+            print(item)
+        else:
+            # 封装入库 item
+            values = (item["device"], item["risk_type"], item["risk_name"], item["risk_des"], item["risk_suggestion"],
+                      item["risk_grade"], item["remark"], item["risk_class"])
+            sql = 'INSERT INTO `sys_risk1` (`user_id`, `enterprise_id`, `device`,`risk_type`, `risk_name`, `risk_des`,' \
+                  ' `risk_suggestion`,`risk_grade`, `remark`,`risk_class`,`create_time`) VALUES ' \
+                  '( 0,0,%s,%s,%s,%s,%s,%s,%s,%s,NOW());'
+            # 执行插入数据到数据库操作
+            self.cursor.execute(sql, values)
+            # 提交，不进行提交无法保存到数据库
+            self.connect.commit()
+            return item
 
     def close_spider(self, spider):
         # 关闭游标和连接

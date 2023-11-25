@@ -58,6 +58,34 @@ class Ipv4_range:
         return result
 
 
+class Ipv4_operate:
+    """ ipv4 操作类 """
+
+    @staticmethod
+    def ipv4_to_int(ip: str):
+        # 1.将IP地址转换成32位的二进制。
+        s = ip.split('.')
+        h = []
+        g = []
+        for temp in s:
+            while 0 != temp:
+                temp = int(temp)
+                a = temp % 2
+                h.insert(0, a)
+                temp = temp / 2
+            if len(h) != 8:
+                for i in range(8 - len(h)):
+                    h.insert(0, 0)
+            g.extend(h)
+            h = []
+        # 2. 将二进制换算成整数：
+        res = 0
+        j = 0
+        for temp2 in g:
+            res = res + temp2 * (2 ** (31 - j))
+            j += 1
+        return res
+
 class Ipv6_range:
     def ipv6_add(self, ip):
         """ IPv6的地址和掩码转换为地址范围 """
@@ -135,31 +163,6 @@ class Ipv6_range:
         return ([ip_min, ip_max])
 
 
-def Ipv4ToInt(ip: str):
-    # 1.将IP地址转换成32位的二进制。
-    s = ip.split('.')
-    h = []
-    g = []
-    for temp in s:
-        while 0 != temp:
-            temp = int(temp)
-            a = temp % 2
-            h.insert(0, a)
-            temp = temp / 2
-        if len(h) != 8:
-            for i in range(8 - len(h)):
-                h.insert(0, 0)
-        g.extend(h)
-        h = []
-    # 2. 将二进制换算成整数：
-    res = 0
-    j = 0
-    for temp2 in g:
-        res = res + temp2 * (2 ** (31 - j))
-        j += 1
-    return res
-
-
 def add_github_host(sys: str = 'windows'):
     """ 一般Github的访问有两部分：主站的访问和二级域名的资源加载（比如样式文件等）一般Github加载缓慢，主要是
      assets-cdn.github.com、avatars0.githubusercontent.com 以及 avatars1.githubusercontent.com 三个域名的解析问题。
@@ -210,5 +213,5 @@ if __name__ == '__main__':
     # ips = Ipv4_range()
     # print(ips.ips('10.90.3.1/30'))
     # print(ips.ip('10.90.3.0', '255.255.255.230'))
-    print(Ipv4ToInt('10.9.3.100'))
+    print(Ipv4_operate.ipv4_to_int('10.9.3.100'))
     print('end...')
